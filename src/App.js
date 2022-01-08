@@ -58,12 +58,12 @@ export default class App extends Component {
 
   updateClock = () => {
     let useCustomTime = "yes";
-    let ausTime = new Date().toLocaleString("en-US", {
-      timeZone: "Australia/Brisbane",
+    let usTime = new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",                             //timeZone: "Australia/Brisbane"
     });
 
     console.log("options before=>", this.state.options);
-    let date = new Date(ausTime);
+    let date = new Date(usTime);
 
     this.setState({
       options: {
@@ -91,7 +91,7 @@ export default class App extends Component {
             this.clockchangeHandler(true);
           }}
         >
-          Australia
+          America
         </button>
         <button
           style={{
