@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import AnalogClock from "analog-clock-react";
+import CountDown from "./CountDown";
+import { Button, Col, Container, Row, Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
 
 export default class App extends Component {
   interval = null;
@@ -7,6 +9,8 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      isShow: false,
+      msg: "",
       isCustomTime: false,
       options: {
         useCustomTime: false,
@@ -24,6 +28,21 @@ export default class App extends Component {
       },
     };
   }
+
+  startClock = () => {
+    this.setState({
+      isShow: true
+    })
+  }
+
+  stopClock = (props) => {
+    console.log("props value++++++++", props)
+    this.setState({
+      isShow: false,
+      msg: props
+    })
+  }
+
 
   clockchangeHandler = (value) => {
     console.log("calling change handler");
@@ -78,34 +97,79 @@ export default class App extends Component {
 
   render() {
     return (
-      <div style={{marginTop:"3%", marginLeft:"40%"}}>
-        <AnalogClock {...this.state.options} />
-        <br />
-        <button
-          style={{
-            width: "135px",
-            height: "33px",
-            fontWeight: "bold",
+      // <div style={{marginTop:"3%", marginLeft:"40%"}}>
+      <Container>
+        <br/>
+        <br/>
+        <Row>
+          <Col
+          className="bg-light border"
+          sm={{
+            size: 6
           }}
-          onClick={() => {
-            this.clockchangeHandler(true);
+          >
+            <AnalogClock {...this.state.options} />
+            <br />
+            <button
+              style={{
+                width: "135px",
+                height: "33px",
+                fontWeight: "bold",
+              }}
+              onClick={() => {
+                this.clockchangeHandler(true);
+              }}
+            >
+              America
+            </button>
+            <button
+              style={{
+                width: "135px",
+                height: "33px",
+                fontWeight: "bold",
+              }}
+              onClick={() => {
+                this.clockchangeHandler(false);
+              }}
+            >
+              India
+            </button>
+          </Col>
+
+          <Col
+          className="bg-light border"
+          sm={{
+            size: 6
           }}
-        >
-          America
-        </button>
-        <button
-          style={{
-            width: "135px",
-            height: "33px",
-            fontWeight: "bold",
-          }}
-          onClick={() => {
-            this.clockchangeHandler(false);
-          }}
-        >
-          India
-        </button>
-      </div>
+          >
+            <div>
+  <Card>
+    <CardBody>
+      <CardTitle tag="h5">
+        <input type="radio"/>
+        GooglePay
+      </CardTitle>
+      <CardTitle tag="h5">
+        <input type="radio"/>
+        PhonePe
+      </CardTitle>
+      
+      {this.state.isShow === true ? <CountDown stop={this.stopClock} /> : null}
+      <CardText>
+        <h3>Proceed with the payment</h3>
+      </CardText>
+      <CardText style={{color:"red"}}><h4>{this.state.msg}</h4></CardText>
+      <Button color="success" onClick={this.startClock}>
+        Pay Now
+      </Button>
+    </CardBody>
+  </Card>
+</div>
+            
+          </Col>
+        </Row>
+
+      </Container>
     );
   }
 }
